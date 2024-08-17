@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: mydeploy
+  labels: 
+    app: myapp
+    type: front-end
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 2
+        maxUnavailable: 1
+  template:
+      metadata:
+        name: mypod
+        labels: 
+          app: web
+          type: front-end
+      spec:
+          containers:
+            - name: nginx-cont
+              image: alpine
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
